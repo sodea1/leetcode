@@ -3,7 +3,7 @@
  * @return {number}
  */
 var maxProfit = function(prices) {
-    let maxProfit = -Infinity;
+    let maxProfit = 0;
     let min = prices[0];
     let difference;
     
@@ -16,9 +16,5 @@ var maxProfit = function(prices) {
         if (difference > maxProfit) maxProfit = difference;
     };
     
-    if (maxProfit < 0) {
-        return 0;
-    } else {
-        return maxProfit;
-    }
+    return maxProfit;
 };
