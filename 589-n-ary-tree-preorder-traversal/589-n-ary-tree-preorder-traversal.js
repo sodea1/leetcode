@@ -11,18 +11,14 @@
  * @return {number[]}
  */
 
-var traversal = function(root, list) {
+var preorder = function(root, list = []) {
+    if (root === null) return [];
     list.push(root.val);
     if (root.children) {
         for (let i = 0; i < root.children.length; i++) {
-            traversal(root.children[i], list);
+            preorder(root.children[i], list);
         }
     }
     
     return list;
-};
-
-var preorder = function(root) {
-    if (root === null) return [];
-    return traversal(root, []);
 };
