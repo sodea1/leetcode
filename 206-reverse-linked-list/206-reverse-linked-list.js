@@ -16,12 +16,16 @@
 //
 var reverseList = function(head) {
     let tail = null;
-    let curr = head;
-    while (curr !== null) {
-        let nex = curr.next; // null
-        curr.next = tail;
-        tail = curr;
-        curr = nex;
-    };
-    return tail;
+    let result = null;
+    
+    let prev = head;
+    while (prev !== null) {
+        let nex = prev.next;
+        if (nex === null) result = prev;
+        prev.next = tail;
+        tail = prev;
+        prev = nex;
+    }
+    
+    return result;
 };
