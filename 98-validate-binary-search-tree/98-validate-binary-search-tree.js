@@ -14,13 +14,13 @@ var isValidBST = function(root) {
     const validate = (root, min, max) => {
         if (!root) return true;
         
-        if ((min !== null && root.val <= min) || (max !== null && root.val >= max)) {
+        if ((root.val <= min) || (root.val >= max)) {
             return false;
         }
         
-        return validate(root.left, min, root.val) && validate(root.right, root.val,         max)
+        return validate(root.left, min, root.val) && validate(root.right, root.val,         max);
     }
     
-    return validate(root, null, null);
+    return validate(root, -Infinity, Infinity);
 };
     
