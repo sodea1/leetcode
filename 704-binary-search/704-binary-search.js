@@ -5,28 +5,18 @@
  */
 
 var search = function(nums, target) {
-    let start = 0;
-    let stop = nums.length - 1;
-    
-    return binarySearch(nums, start, stop, target)
-}
-
-var binarySearch = function(nums, start, stop, target) {
-    console.log(stop)
-    console.log(start)
-    if (start <= stop) {
-        const mid = start + Math.floor(((stop - start) / 2));
-        
-        if (nums[mid] === target) {
-            return mid;
+    let first = 0;
+    let last = nums.length -1;
+    while (first <= last) {
+        let mid = Math.floor((first + last) / 2);
+        if (nums[mid] < target) {
+            first = mid + 1
         } else if (nums[mid] > target) {
-            //search left
-            return binarySearch(nums, start, mid - 1, target);
-        } else if (nums[mid] < target) {
-            // search right
-            return binarySearch(nums, mid + 1, stop, target);
+            last = mid - 1;
+        } else {
+            return mid;
         }
     }
-        
+    
     return -1;
 }
