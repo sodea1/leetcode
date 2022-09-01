@@ -2,7 +2,8 @@
  * @param {number[]} cost
  * @return {number}
  */
-
+//.       2 3 3 103 4 5 104 6
+// [1,100,1,1,1,100,1,1,100,1]
 
 var minCostClimbingStairs = function(cost) {
     for (let i = 2; i < cost.length; i++) {
