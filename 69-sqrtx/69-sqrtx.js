@@ -3,14 +3,22 @@
  * @return {number}
  */
 var mySqrt = function(x) {
-    if (x === 1 || x === 2) return 1;
-    const upperBound = Math.floor(x / 2);
-    console.log(upperBound)
-    let i;
-    for (i = 1; i <= upperBound; i++) {
-        if ((i * i) === x) return i;
-        if ((i * i) > x) return i - 1;
-    }
+    if (x < 2) return x;
     
-    return i - 1;
+    let left = 2;
+    let right = Math.floor(x / 2);
+    
+    while (left <= right) {
+        let pivot = Math.floor((left + right) / 2);
+        let num = pivot * pivot;
+        
+        if (num > x) {
+            right = pivot - 1;
+        } else if (num < x) {
+            left = pivot + 1;
+        } else {
+            return pivot;
+        }
+    }
+    return right;
 };
