@@ -16,10 +16,10 @@ var isValid = function(s) {
             if (stack.pop() !== "{") return false;
         } else if (s[i] === "]") {
             if (stack.pop() !== "[") return false;
+        } else {
+            stack.push(s[i])
         }
-        
-        if (opens.includes(s[i])) stack.push(s[i]);
     };
-    if (stack.length > 0) return false;
-    return true;
+    
+    return stack.length > 0 ? false : true;
 };
