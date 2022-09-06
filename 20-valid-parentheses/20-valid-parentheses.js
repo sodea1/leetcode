@@ -11,23 +11,11 @@ var isValid = function(s) {
     
     for (let i = 1; i < s.length; i++) {
         if (s[i] === ")") {
-            if (stack[stack.length - 1] === "(") {
-                stack.pop();
-            } else {
-                return false;
-            }
+            if (stack.pop() !== "(") return false;
         } else if (s[i] === "}") {
-            if (stack[stack.length - 1] === "{") {
-                stack.pop();
-            } else {
-                return false;
-            }
+            if (stack.pop() !== "{") return false;
         } else if (s[i] === "]") {
-            if (stack[stack.length - 1] === "[") {
-                stack.pop()
-            } else {
-                return false;
-            }
+            if (stack.pop() !== "[") return false;
         }
         
         if (opens.includes(s[i])) stack.push(s[i]);
