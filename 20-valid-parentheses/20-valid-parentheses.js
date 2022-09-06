@@ -7,7 +7,7 @@
 // queue = (,(, (,
 var isValid = function(s) {
     const stack = [s[0]];
-    const opens = "({["
+    const opens = "({[";
     
     for (let i = 1; i < s.length; i++) {
         if (s[i] === ")") {
