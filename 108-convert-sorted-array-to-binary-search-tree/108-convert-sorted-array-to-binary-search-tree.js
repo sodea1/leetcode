@@ -10,6 +10,11 @@
  * @param {number[]} nums
  * @return {TreeNode}
  */
+//                 10
+//        4                  16
+//    2      8          14      18
+//         6         12
+// [0    6,                ]
 var sortedArrayToBST = function(nums) {
     if (nums === null || !nums.length) {
         return null;
