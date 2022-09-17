@@ -9,30 +9,19 @@
 // [1, 4, 6, 4, 1]
 
 var generate = function(numRows) {
-    const pascal = [[1]]; // [[1], ]
+    const pascal = []; // [[1], ]
     
-    for (i = 0; i < numRows - 1; i++) {
+    for (i = 0; i < numRows; i++) {
         const row = [1];
-        let prev = pascal[pascal.length - 1];
         
-        for (let j = 1; j < prev.length; j++) {
-            row.push(prev[j] + prev[j - 1]);
+        for (j = 1; j < i; j++) { 
+            const above = (pascal[i - 1][j] !== null) ? pascal[i - 1][j] : 0;
+            const left = (pascal[i - 1][j - 1] !== null) ? pascal[i - 1][j - 1] : 0;
+            row[j] = above + left;
         }
-        row.push(1);
+        if (i !== 0) row.push(1);
         pascal.push(row);
     }
     
     return pascal;
 };
-
-// let output = [[1]];
-//     for (let i = 0; i < numRows - 1; i++) {
-//         let x = output[output.length - 1];
-//         let row = [1];
-//         for (let j = 1; j < x.length; j++) {
-//             row.push(x[j]+x[j-1])
-//         }
-//         row.push(1);
-//         output.push(row);
-//     }
-//     return output;
