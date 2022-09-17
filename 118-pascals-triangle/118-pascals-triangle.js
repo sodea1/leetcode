@@ -12,8 +12,7 @@ var generate = function(numRows) {
     const pascal = []; // [[1], ]
     
     for (i = 0; i < numRows; i++) {
-        const row = [];
-        row.push(1);
+        const row = [1];
         
         for (j = 1; j < i; j++) { 
             const above = (pascal[i - 1][j] !== null) ? pascal[i - 1][j] : 0;
