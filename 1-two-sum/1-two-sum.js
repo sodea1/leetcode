@@ -4,13 +4,10 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    const diffs = {};
+    const lookup = {};
     
     for (let i = 0; i < nums.length; i++) {
-        if (nums[i] in diffs) return [diffs[nums[i]], i];
-        let diff = target - nums[i];
-        diffs[diff] = i;
+        if (nums[i] in lookup) return [lookup[nums[i]], i];
+        lookup[target - nums[i]] = i;
     };
-    
-    return null;
 };
