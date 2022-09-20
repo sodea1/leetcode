@@ -7,8 +7,8 @@ var singleNumber = function(nums) {
     const index = {};
     
     for (let num of nums) {
-        (num in index) ? index[num] += 1 : index[num] = 1;
+        (num in index) ? delete index[num] : index[num] = 1;
     };
     
-    return Object.keys(index).find(key => index[key] === 1);
+    return Object.keys(index)[0];
 };
