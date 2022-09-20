@@ -11,14 +11,13 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    let p1 = head;
-    let p2 = head;
+    const set = new Set();
     
-    while (p2 !== null && p2.next !== null) {
-        p1 = p1.next;
-        p2 = p2.next.next;
-        if (p1 === p2) return true;
-    };
+    while(head) {
+        if (set.has(head)) return true;
+        set.add(head);
+        head = head.next;
+    }
     
     return false;
 };
