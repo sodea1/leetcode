@@ -17,11 +17,14 @@ var isPalindrome = function(head) {
         head = head.next;
     };
     
-    let i = arr.length - 1;
-    for (let j = 0; j < arr.length; j++) {
+    let i = 0;
+    let j = arr.length - 1;
+    
+    while (i < j) {
         if (arr[i] !== arr[j]) return false;
-        i--;
-    };
+        i++;
+        j--;
+    }
     
     return true;
 };
