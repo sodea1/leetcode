@@ -6,8 +6,7 @@
 
 var missingNumber = function(nums) {
     const set = new Set(nums);
-    let size = nums.length;
-    for (let i = 0; i <= size; i++) {
+    for (let i = 0; i <= nums.length; i++) {
         if (!set.has(i)) return i;
     };
 };
