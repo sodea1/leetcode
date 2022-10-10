@@ -30,27 +30,22 @@
 
 var rightSideView = function(root) {
     if (root === null) return [];
-    const vals = [root.val];
-    const queue = [root]; // [ [2, null] ]
+    const vals = [];
+    const queue = [[root]]; // [ [2, null] ]
     
     while (queue.length > 0) {
         const node = queue.shift(); // [ 2, 3 ]
         let layer = [];
-        if (node === root) {
-            const leftNode = node.left;
-            const rightNode = node.right;
-            if (leftNode) layer.push(leftNode);
-            if (rightNode) layer.push(rightNode);
-            if (layer.length > 0) queue.push(layer);
-        } else {
-            vals.push(node[node.length - 1].val)
-            while (node.length > 0) { // [2, 3]
-                const dog = node.shift(); // 2
-                if (dog.left) layer.push(dog.left);
-                if (dog.right) layer.push(dog.right);
-            };
-            if (layer.length > 0) queue.push(layer);
+        
+        vals.push(node[node.length - 1].val)
+        
+        while (node.length > 0) { // [2, 3]
+            const dog = node.shift(); // 2
+            if (dog.left) layer.push(dog.left);
+            if (dog.right) layer.push(dog.right);
         };
+        
+        if (layer.length > 0) queue.push(layer);
     };
     
     return vals;
