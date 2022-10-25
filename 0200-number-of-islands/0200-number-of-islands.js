@@ -26,8 +26,7 @@ var numIslands = function(grid) {
     
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[0].length; col++) {
-            let found = explore(grid, row, col, visited);
-            if (found) numIslands++;
+            if (explore(grid, row, col, visited)) numIslands++;
         };
     };
     
