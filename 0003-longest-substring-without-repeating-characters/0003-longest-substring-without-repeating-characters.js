@@ -3,42 +3,23 @@
  * @return {number}
  */
 
-//        *
-//       *
-// "abbabcbb"
+//    *
+//    *
 // "pwwkew"
 
-// two pointers sliding window
-// maintain a Map to lookup repeated characters in O(1) time
-// increment j until duplicate found
-// re-initialize  and increment i, set j = i
-
 var lengthOfLongestSubstring = function(s) {
-    if (s.length === 1) return 1;
-    if (s.length === 0) return 0;
-    // sliding 
-    let maxLength = 0;
-    let indices = new Map().set(s[0], 0);
-    
-    let j = 1;
     let i = 0;
+    let maxSize = 0;
+    const map = new Map();
     
-    while (j < s.length) {
-        // if duplicate, record length
-        if (indices.has(s[j])) {
-            maxLength = (indices.size > maxLength) ? indices.size : maxLength;
-            let duplicateIdx = indices.get(s[j]);
-            i = duplicateIdx + 1;
-            indices = new Map().set(s[i], i);
-            j = i;
-        } else {
-            indices.set(s[j], j);
+    for (let j = 0; j < s.length; j++) {
+        if (map.has(s[j])) {
+            i = Math.max(i, map.get(s[j]));
         };
         
-        j++;
+        map.set(s[j], j + 1);
+        maxSize = Math.max(maxSize, j - i + 1);
     };
     
-    maxLength = (indices.size > maxLength) ? indices.size : maxLength;
-    
-    return maxLength
+    return maxSize;
 };
