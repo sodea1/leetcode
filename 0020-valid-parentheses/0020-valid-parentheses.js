@@ -8,24 +8,20 @@
 
 // while stack is not empty, push/pop to match pairs
 var isValid = function(s) {
-    let i = 0;
-    const stack = [s[i]]; 
-    const brackets = { '(': ')', '{': '}', '[': ']' };
-    const closing = Object.values(brackets);
-    if (closing.includes(stack[i])) return false;
+    const stack = [s[0]];
+    const openBrackets = "({[";
     
-    while (i < s.length) { 
-        i++;
-        // check if next character is an opening bracket
-        if (Object.keys(brackets).includes(s[i])) {
-            stack.push(s[i]);
+    for (let i = 1; i < s.length; i++) {
+        if (s[i] === ")") {
+            if (stack.pop() !== "(") return false;
+        } else if (s[i] === "}") {
+            if (stack.pop() !== "{") return false;
+        } else if (s[i] === "]") {
+            if (stack.pop() !== "[") return false;
         } else {
-            let openBracket = stack.pop();
-            if (s[i] !== brackets[openBracket]) {
-                return false;
-            };
-        };
+            stack.push(s[i]);
+        }
     };
     
-    return true;
+    return (stack.length === 0) ? true : false;
 };
