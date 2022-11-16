@@ -3,41 +3,32 @@
  * @param {number} k
  * @return {string}
  */
+// [d, 1], [e, 3], 
+// sub = eee
 //       *
 // s = "deeedbbcccbdaa"
 // k = 3
 
 var removeDuplicates = function(s, k) {
-    let removed = false;
+    const stack = [];
     
-    let removals = [];
-    let subStr = "";
-    while (!removed) {
-        removed = true;
-        
-        for (let i = 0; i < s.length; i++) {
-            if (subStr.length === k) {
-                // remove
-                // set removed = false;
-                removals.push(subStr);
-                removed = false;
+    for (let char of s) {
+        if (stack.length && stack[stack.length - 1][0] === char) {
+            stack[stack.length - 1][1] += 1;
+            if (stack[stack.length - 1][1] === k) {
+                stack.pop();
             };
-            
-            if (subStr.length === 0) {
-                subStr += s[i];
-            } else {
-                if (subStr[0] === s[i]) {
-                    subStr += s[i];
-                } else {
-                    subStr = s[i];
-                };
-            };        
-        };
-        
-        removals.forEach((sub) => {
-            s = s.replace(sub, "");
-        });
+        } else {
+            stack.push([char, 1]);
+        }
     };
     
-    return s;
+    let res = "";
+    
+    console.log(stack)
+    for (let [char, count] of stack) {
+        res += char.repeat(count);
+    }
+    
+    return res;
 };
