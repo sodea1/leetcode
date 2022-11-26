@@ -29,7 +29,7 @@ var spiralOrder = function(matrix) {
         res.push(matrix[row][col]);
         matrix[row][col] = "x";
         
-        if (dir === "up" && row > 0 && matrix[row - 1][col] !== 'x') return spiral(row - 1, col, 'up'); 
+        if (dir === "up" && row > 1 && matrix[row - 1][col] !== 'x') return spiral(row - 1, col, 'up'); 
         
         if (col + 1 < width && matrix[row][col + 1] !== "x") {
             return spiral(row, col + 1);
