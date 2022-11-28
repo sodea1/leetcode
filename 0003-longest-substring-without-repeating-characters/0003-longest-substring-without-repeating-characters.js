@@ -3,22 +3,28 @@
  * @return {number}
  */
 
-//    *
-//    *
-// "pwwkew"
+// Approach:
+// two pointers and a hashmap of letter/idx pairs for resetting pointer i
 
-var lengthOfLongestSubstring = function(s) {
-    let i = 0;
-    let maxSize = 0;
+//     j
+//   i
+// "abbabdj"
+
+var lengthOfLongestSubstring = function(s) { 
+    if (s.length === 0) return 0;
+    let maxSize = 1;
+    let start = 0;
     const map = new Map();
+    map.set(s[start], start + 1);
     
-    for (let j = 0; j < s.length; j++) {
-        if (map.has(s[j])) {
-            i = Math.max(i, map.get(s[j]));
+    for (let end = 1; end < s.length; end++) {
+        if (map.has(s[end])) {
+            // reset start pointer
+            start = Math.max(start, map.get(s[end]))
         };
         
-        map.set(s[j], j + 1);
-        maxSize = Math.max(maxSize, j - i + 1);
+        map.set(s[end], end + 1);
+        maxSize = Math.max(maxSize, end - start + 1);
     };
     
     return maxSize;
