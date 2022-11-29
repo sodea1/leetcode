@@ -11,39 +11,37 @@
  * @return {ListNode}
  */
 
-//      *
-// 1 => 3 => 6
-// * 
-// 2 => 4 => 5
-//         t
-// null => 1 => 2
+//      i
+// 1 => 3 => 5 => 8
+//       j
+// 2 => 4 => 8 => 9
+// 1 => 2
 
-// newList = 1 => 2 => 3...
-
-// curr1, curr2, newList
+// null => 
 
 var mergeTwoLists = function(list1, list2) {
-    let curr1 = list1;
-    let curr2 = list2;
+    const head = new ListNode(null);
+    let tail = head;
     
-    let sortedList = new ListNode(null);
-    let tail = sortedList;
-    
-    while (curr1 !== null && curr2 !== null) {
-        if (curr1.val <= curr2.val) {
-            tail.next = curr1;
-            curr1 = curr1.next;
+    while (list1 !== null && list2 !== null) {
+        if (list1.val <= list2.val) {
+            tail.next = list1;
+            list1 = list1.next;
         } else {
-            tail.next = curr2;
-            curr2 = curr2.next;
+            tail.next = list2;
+            list2 = list2.next;
         }
         
         tail = tail.next;
-    };
+    }
     
-    // check if we have remaining nodes on either list
-    if (curr1 !== null) tail.next = curr1;
-    if (curr2 !== null) tail.next = curr2;
+    if (list1 !== null) {
+        tail.next = list1;
+    }
     
-    return sortedList.next;
+    if (list2 !== null) {
+        tail.next = list2;
+    }
+    
+    return head.next;
 };
