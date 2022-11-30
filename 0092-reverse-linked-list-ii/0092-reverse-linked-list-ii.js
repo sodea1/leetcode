@@ -11,8 +11,12 @@
  * @param {number} right
  * @return {ListNode}
  */
+//          e
+//    s    
+// [1,2,3,4,5]
 
-
+                  // [... [leftNode: 3,2, rightNode: 4,3,2], [leftNode: 3,4,2, rightNode: 4,2], [leftNode: 2,3,4,5, rightNode: 5]]
+ 
 var reverseBetween = function(head, left, right) {
     let rightNode = head;
     let leftNode = head;
@@ -27,14 +31,13 @@ var reverseBetween = function(head, left, right) {
         }
         
         recurse(rightNode, left - 1, right - 1);
-        console.log(left)
-        console.log(right)
+        
         if (leftNode === rightNode || rightNode.next === leftNode) {
             stop = true;
         };
         
         if (!stop) {
-            [leftNode.val, rightNode.val] = [rightNode.val, leftNode.val]
+            [leftNode.val, rightNode.val] = [rightNode.val, leftNode.val];
             leftNode = leftNode.next;
         }
     }
