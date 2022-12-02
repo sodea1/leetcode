@@ -14,13 +14,15 @@ var generate = function(numRows) { // 5
     
     const pascal = [[1]];
     
-    for (let i = 1; i < numRows; i++) {
-        const prevRow = pascal[pascal.length - 1];
-        const shiftLeft = [...prevRow, 0]; //  1,1,0
-        const shiftRight = [0, ...prevRow]; // 0,1,1
-        let nextRow = shiftLeft.map((r, i) => r + shiftRight[i]);
-        pascal.push(nextRow);
-    }
+    for (let i = 1; i < numRows; i++) { // [1, 2, 1] => [1, 3, 3, 1]
+        let prev = pascal[i - 1]; // [1, 2, 1]
+        let newRow = [1];
+        for (let j = 1; j < prev.length; j++) {
+            newRow.push(prev[j] + prev[j - 1]);
+        };
+        newRow.push(1);
+        pascal.push(newRow);
+    };
     
     return pascal;
 };
