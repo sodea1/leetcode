@@ -20,6 +20,5 @@ var subarraySum = function(nums, k) {
         count += map.get(runningSum - k) || 0;
         map.set(runningSum, map.get(runningSum) + 1 || 1);
     };
-    console.log(map)
     return count;
 };
