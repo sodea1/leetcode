@@ -18,95 +18,55 @@
 // tail <= 7
 // on deck: 0
 
+// INPUT
+// 1 => 4 => 5
+// 2 => 3 => 4
+
+// REVERSED
+// 5 => 4 => 1  (145)
+// 4 => 3 => 2 +(234)
+// -----------  -----
+// 9 => 7 => 3   379
+//               3 => 7 => 9 => null
 
 var addTwoNumbers = function(l1, l2) {
-    if (l1 === null && l2 === null) {
-        return null;
-    };
-    if (l1 === null || l2 === null) {
-        return (l1 === null) ? l2 : l1;
-    }
-    
-    let reversed1 = reverse(l1);
-    let reversed2 = reverse(l2);
-    let carry = 0; // 0
-    let prev = null; // 7 => 0 => 8
-    let tail = null; // 0 => 7
-    
-    while (reversed1 && reversed2) {
-        let sum = reversed1.val + reversed2.val + carry; // 7, 10, 8
+    const reverse = (head) => { //    2 => 3 => 4
+        let tail = null; // 4 => 3 => 2 => null
         
-        if (sum > 9) {
-            carry = 1;
-            sum = sum % 10; // 0
-        } else {
-            carry = 0;
+        while (head) {
+            let nextNode = head.next;
+            head.next = tail;
+            tail = head;
+            head = nextNode;
         }
         
-        let node = new ListNode(sum); // 8
-        if (!tail) {
-            tail = node;
-        } else {
-            node.next = tail;
-            tail = node;
-        }
-                
-        reversed1 = reversed1.next;
-        reversed2 = reversed2.next;
-    };
-    
-    let remainingList = (reversed1) ? reversed1 : (reversed2) ? reversed2 : null;
-    if (!remainingList && !carry) return tail;
-    if (!remainingList && carry === 1) {
-        let newNode = new ListNode(1);
-        newNode.next = tail;
-        tail = newNode;
         return tail;
-    }
+    };
     
-    if (remainingList) {
-        if (!carry) {
-            while (remainingList) {
-                let nextNode = remainingList.next;
-                remainingList.next = tail;
-                tail = remainingList;
-                remainingList = nextNode;
-            }
-        } else {
-            while (remainingList) {
-                let sum = carry + remainingList.val;
-                if (sum > 9) {
-                    carry = 1;
-                    sum = sum % 10; // 0
-                } else {
-                    carry = 0;
-                }
-                let node = new ListNode(sum);
-                node.next = tail;
-                tail = node;
-                remainingList = remainingList.next;
-            }
-            
-            if (carry === 1) {
-                let newNode = new ListNode(1);
-                newNode.next = tail;
-                tail = newNode;
-                return tail;
-            }
-        }
-    }
-    return tail;
-};
-
-const reverse = (head) => {
+    l1 = reverse(l1);
+    l2 = reverse(l2);
+    
     let tail = null;
+    let sum = 0;
     
-    while (head) {
-        let nextNode = head.next;
-        head.next = tail;
-        tail = head;
-        head = nextNode;
-    }
+    while (l1 || l2) {
+        if (l1) {
+            sum += l1.val;
+            l1 = l1.next
+        }
+        
+        if (l2) {
+            sum += l2.val;
+            l2 = l2.next;
+        }
+        
+        let node = new ListNode(sum % 10, tail);
+        tail = node;
+        
+        sum = sum > 9 ? 1 : 0;
+    };
     
-    return tail;
+    if (sum) tail = new ListNode(1, tail);
+    
+    return tail;    
 };
