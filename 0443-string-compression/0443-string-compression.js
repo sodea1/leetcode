@@ -7,15 +7,13 @@
 // ["a","a","b","b","c","c","c","end"]
 
 var compress = function(chars) {
-    chars.push("end");
+    const result = [];
     let count = 1;
-    let spliceIdx;
     
     for (let i = 0; i < chars.length; i++) {
-        if (chars[i + 1] === "end") {
-            chars.push(chars[i])
-            if (count > 1) chars.push(...count.toString().split(""));
-            spliceIdx = i + 2;
+        if (!chars[i + 1]) {
+            result.push(chars[i])
+            if (count > 1) result.push(...count.toString().split(""));
             break;
         };
         
@@ -23,15 +21,15 @@ var compress = function(chars) {
            count++;
         } else {
             if (count > 1) {
-                chars.push(chars[i]);
-                chars.push(...count.toString().split(""));
+                result.push(chars[i]);
+                result.push(...count.toString().split(""));
                 count = 1;
             } else {
-                chars.push(chars[i]);
+                result.push(chars[i]);
             }
         }
     }
-    console.log(chars)
-    chars.splice(0, spliceIdx)
+    
+    chars.splice(0, chars.length, ...result)
     return chars.length;    
 };
