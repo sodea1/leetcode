@@ -9,20 +9,20 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-// n
-// 2 => 3 => 4
-// c
-// 1 => null
+//  h
+//  2 => 3
+//  t
+//  1 => null 
 
 var reverseList = function(head) {
-    let tail = null;
-    let current = head;
+    const newHead = null;
+    let tail = newHead;
     
-    while (current !== null) {
-        let nextNode = current.next;
-        current.next = tail;
-        tail = current;
-        current = nextNode;
+    while (head) {
+        let nextNode = head.next;
+        head.next = tail;
+        tail = head;
+        head = nextNode;
     };
     
     return tail;
