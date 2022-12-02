@@ -12,8 +12,8 @@
  * @return {TreeNode}
  */
 
-// preorder = [3,9,20,10,15,7]
-// inorder = [10,9,3,15,20,7]
+// preorder = [3,9,20,15,7]
+// inorder = [9,3,15,20,7]
 // inorderMap = { "9":0, "3":1, "15":2, "20":3, "7":4}
 // 
 //           3*
@@ -22,20 +22,23 @@
 //            /  \
 //           15   7
 var buildTree = function(preorder, inorder) {
-    if (!preorder.length || !inorder.length) return null;
+    const inorderMap = {};
+    inorder.forEach((el, idx) => {
+        inorderMap[el] = idx;
+    });
     
-    const parent = new TreeNode(preorder[0]); // 3
-    const middle = inorder.indexOf(preorder[0]); // 1
+    let preorderIdx = 0;
     
-    parent.left = buildTree(
-        preorder.slice(1, middle + 1), 
-        inorder.slice(0, middle)
-    );
+    const build = (left, right) => {
+        if (left > right) return null;
+        
+        const rootVal = preorder[preorderIdx++];
+        const parent = new TreeNode(rootVal);
+        parent.left = build(left, inorderMap[rootVal] - 1);
+        parent.right = build(inorderMap[rootVal] + 1, right);
+        
+        return parent;
+    }
     
-    parent.right = buildTree(
-        preorder.slice(middle + 1), 
-        inorder.slice(middle + 1)
-    );
-    
-    return parent;
+    return build(0, inorder.length - 1);
 };
