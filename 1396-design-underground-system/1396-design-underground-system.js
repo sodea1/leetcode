@@ -1,7 +1,7 @@
 
 var UndergroundSystem = function() {
-    this.checkIns = new Map();
-    this.times = new Map();
+    this.checkIns = {};
+    this.tripTimes = {};
 };
 
 /** 
@@ -11,8 +11,7 @@ var UndergroundSystem = function() {
  * @return {void}
  */
 UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
-    // customer checks into a station at a particular time with an ID
-    this.checkIns.set(id, [stationName, t]);
+    this.checkIn[id] = [stationName, t];
 };
 
 /** 
@@ -22,14 +21,16 @@ UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
  * @return {void}
  */
 UndergroundSystem.prototype.checkOut = function(id, stationName, t) {
-    // customer checks out of a station at a particular time with an ID
-    const [checkInStation, checkInTime] = this.checkIns.get(id);
-    this.checkIns.delete(id);
+    const [startStation, startTime] = this.checkIn[id];
+    let totalTime = t - startTime;
+    let tripKey = `${startStation}-${stationName}`;
     
-    const diff = t - checkInTime;
-    const key = `${checkInStation}-${stationName}`;
-    const [sum, count] = this.times.has(key) ? this.times.get(key) : [0, 0];
-    this.times.set(key, [sum + diff, count + 1]);
+    if (this.tripTimes[tripKey]) {
+        this.tripTimes[tripKey][0] += totalTime;
+        this.tripTimes[tripKey][1]++;
+    } else {
+        this.tripTimes[tripKey] = [totalTime, 1];
+    };    
 };
 
 /** 
@@ -38,15 +39,8 @@ UndergroundSystem.prototype.checkOut = function(id, stationName, t) {
  * @return {number}
  */
 UndergroundSystem.prototype.getAverageTime = function(startStation, endStation) {
-    // returns avg time traveled between stations
-    // avg time comprised of all direct trips from "a" to "b"
-    // start time = check in time
-    // end time = check out time
-    // start to end time can be different from end to start time
-    // we can assume we'll have data to calculate the time (> 1 traveler)
-    const key = `${startStation}-${endStation}`;
-    const [sum, count] = this.times.get(key);
-    return sum / count;
+    const [totalTime, tripCount] = this.tripTimes[`${startStation}-${endStation}`];
+    return totalTime / tripCount;
 };
 
 /** 
