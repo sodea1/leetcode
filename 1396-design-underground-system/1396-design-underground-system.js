@@ -22,6 +22,7 @@ UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
  */
 UndergroundSystem.prototype.checkOut = function(id, stationName, t) {
     const [startStation, startTime] = this.checkIn[id];
+    delete this.checkIn[id];
     let totalTime = t - startTime;
     let tripKey = `${startStation}-${stationName}`;
     
