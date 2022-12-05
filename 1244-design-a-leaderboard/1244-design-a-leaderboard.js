@@ -1,6 +1,6 @@
 
 var Leaderboard = function() {
-    this.board = {};
+    this.board = new Map();
 };
 
 /** 
@@ -8,14 +8,12 @@ var Leaderboard = function() {
  * @param {number} score
  * @return {void}
  */
-
 Leaderboard.prototype.addScore = function(playerId, score) {
-    if (this.board.hasOwnProperty(playerId)) {
-        this.board[playerId] += score;
+    if (this.board.has(playerId)) {
+        this.board.set(playerId, this.board.get(playerId) + score);
     } else {
-        this.board[playerId] = score;
-    };
-
+        this.board.set(playerId, score);
+    }
 };
 
 /** 
@@ -23,10 +21,14 @@ Leaderboard.prototype.addScore = function(playerId, score) {
  * @return {number}
  */
 Leaderboard.prototype.top = function(K) {
-    // sort by score
-    const unsorted = Object.values(this.board);
-    const sorted = unsorted.sort((a, b) => b - a);
-    return sorted.slice(0, K).reduce((acc, num) => acc + num);
+    const topScores = [];
+    
+    this.board.forEach((score) => {
+        topScores.push(score);
+    });
+    
+    topScores.sort((a, b) => b - a);
+    return topScores.slice(0, K).reduce((acc, score) => acc + score);
 };
 
 /** 
@@ -34,7 +36,7 @@ Leaderboard.prototype.top = function(K) {
  * @return {void}
  */
 Leaderboard.prototype.reset = function(playerId) {
-    this.board[playerId] = 0;
+    this.board.delete(playerId);
 };
 
 /** 
