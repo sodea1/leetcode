@@ -1,7 +1,8 @@
+// 
 
 var RandomizedSet = function() {
-    this.indicesMap = new Map();
     this.nums = [];
+    this.valMap = new Map();
 };
 
 /** 
@@ -9,9 +10,9 @@ var RandomizedSet = function() {
  * @return {boolean}
  */
 RandomizedSet.prototype.insert = function(val) {
-    if (this.indicesMap.has(val)) return false;
-    this.indicesMap.set(val,this.nums.length);
+    if (this.valMap.has(val)) return false;
     this.nums.push(val);
+    this.valMap.set(val, this.nums.length - 1);
     return true;
 };
 
@@ -19,14 +20,22 @@ RandomizedSet.prototype.insert = function(val) {
  * @param {number} val
  * @return {boolean}
  */
-RandomizedSet.prototype.remove = function(val) {
-    if (!this.indicesMap.has(val)) return false;
-    const idx = this.indicesMap.get(val);
-    this.indicesMap.delete(val);
-    const last = this.nums.pop();
-    if (this.nums.length === idx) return true;
-    this.indicesMap.set(last, idx);
-    this.nums[idx] = last;
+// [0, 1]
+// pop 1
+// [0]
+// 
+RandomizedSet.prototype.remove = function(val) { 
+    if (!this.valMap.has(val)) return false;
+    const last = this.nums.pop(); // 1
+    const index = this.valMap.get(val); // 0
+    this.valMap.delete(val);
+    
+    if (this.nums.length === index) {
+        return true;
+    } else {
+        this.nums[index] = last;
+        this.valMap.set(last, index);
+    };
     return true;
 };
 
