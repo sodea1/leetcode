@@ -12,19 +12,15 @@ var OrderedStream = function(n) {
  * @return {string[]}
  */
 OrderedStream.prototype.insert = function(idKey, value) {
-    const vals = [];
-    
     this.stream[idKey - 1] = value;
-    
-    if (this.stream[this.pointer]) {
-        while (this.pointer <= this.stream.length) {
-            if (typeof this.stream[this.pointer] === "undefined") return vals;
-            vals.push(this.stream[this.pointer]);
-            this.pointer++;
-        }
+    let chunk = [];
+
+    for (this.pointer; this.pointer < this.stream.length; this.pointer++) {
+        if (!this.stream[this.pointer]) break;
+        chunk.push(this.stream[this.pointer]);
     };
     
-    return vals;
+    return chunk;
 };
 
 /** 
