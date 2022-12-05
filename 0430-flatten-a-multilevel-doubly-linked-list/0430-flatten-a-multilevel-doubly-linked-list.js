@@ -12,40 +12,45 @@
  * @param {Node} head
  * @return {Node}
  */
-// [3, 10]
-// if curr.next === null && stack is not empty, pop from the stack, set curr.next to popped, continue (there may be more children in a list)
+// if child exists, push curr.next onto the stack
+// stack = [8, 11]
+// pop stack set curr.next = popped, when curr node (ie 7) next points to null without a child list
 
-// save curr.next (3) to a variable
+// 1 => 2 => 8 => 9 => 10
+//      3 => 4 => 11
+//           5 => 6 => 7
 
+// 1 => 2 => 3 => 4 => 5 => 6 => 7 => 11 => 8 => 9 => 10
 
-// 1 => null
-// |
-// 2 => null
-// |
-// 3 => null
+// if child
+// push curr.next if curr.next to stack
+// curr.next = child
+// curr = child
+// proceed...
+
+// if no child, curr = curr.next
+// if no child && no next
+    // if stack is empty, return head
+// nextNode = pop stack
+// curr.next = nextNode
+// curr = curr.next;
 
 var flatten = function(head) {
-    if (!head) return head;
     let curr = head;
-    const stack = []; // [3]
+    const stack = [];
     
-    while (curr !== null) {
-        if (curr.child !== null) {
-            let nex = (curr.next) ? curr.next : null; // save the 3
-            curr.next = curr.child; // set next pointer to child
+    while (curr) {
+        if (curr.child) {
+            if (curr.next) stack.push(curr.next);
+            curr.next = curr.child;
+            curr.child = null;
             curr.next.prev = curr;
-            curr.child = null; // set child to null
-            if (nex) stack.push(nex);
+        } else if (!curr.next) {
+            if (stack.length === 0) return head;
+            let nextNode = stack.pop();
+            curr.next = nextNode;
+            nextNode.prev = curr;
         };
-        
-        if (curr.next === null && stack.length > 0) {
-            const levelUp = stack.pop();
-            curr.next = levelUp;
-            levelUp.prev = curr;
-        };
-        
         curr = curr.next;
     };
-    
-    return head;
 };
