@@ -2,48 +2,41 @@
  * @param {string} s
  * @return {string}
  */
-//.       *
-// "3[a2[c]]"
-// stack = [ 3,[,a,2,[   ]
-// sub = ["c"]
-// "cc"
+
+// 3[a]d2[fe] => "aaadfefe"
+// 3[z2[abc ]] => "zabcabczabcabczabcabc";
+// stack = [3, "[", "z", "abcabc"    2, "[", "a", "b", "c", ...]
+// pop until we see "[" => "abc"
+// pop "["
+// abc.repeat(pop 2)   REMEMBER TO ACCOUNT FOR DOUBLE OR TRIPLE DIGIT INTEGERS
+// push "abcabc"
 
 var decodeString = function(s) {
-    let decoded = [];
-    let nums = "0123456789";
-    let pointer = 0;
     const stack = [];
-                                // stack = 3, [, 
-    while (pointer < s.length) { // "3[a]2[bc]"
-        let subStr = "";          // a
-        if (s[pointer] !== "]") {
-            stack.push(s[pointer]);
-        } else {
-            // hit closing bracket and need to decompose the innermost bracket
+    let nums = "0123456789";
+    let decoded = "";
+    let ptr = 0;
+    
+    while (ptr < s.length) {
+        if (s[ptr] === ']') {
+            let subStr = "";
+            
             while (stack[stack.length - 1] !== "[") {
-                subStr += stack.pop();
+                subStr = stack.pop() + subStr;
             };
+            stack.pop(); // pop "["
             
-            stack.pop(); // opening bracket
-            let num = []; // 2
+            let num = stack.pop();
             while (nums.includes(stack[stack.length - 1])) {
-                num.unshift(stack.pop());
+                num = stack.pop() + num;
             };
             
-            num = num.join("");
-            
-            let copy = subStr; // "cb"
-            while (num > 1) {
-                subStr += copy;
-                num--;
-            };
-            
-            for (let j = subStr.length - 1; j >= 0; j--) {
-                stack.push(subStr[j]);
-            };
-        };
-        
-        pointer++;
+            subStr = subStr.repeat(num);
+            stack.push(subStr);
+            ptr++;
+        } else {
+            stack.push(s[ptr++]);
+        }
     };
     
     return stack.join("");
