@@ -28,41 +28,60 @@ var unhappyFriends = function(n, preferences, pairs) {
         pairMap.set(friend1, friend2);
         pairMap.set(friend2, friend1);
     };
-        
-    for (let friend = 0; friend < n; friend++) {
-        let prefIdx = preferences[friend].indexOf(pairMap.get(friend));
-        if (prefIdx === 0) {
-            pairMap.delete(friend);
-            continue;
-        }; // friend got paired with first preference
-        
-        let preferred = [];
-        while (prefIdx > 0) {
-            prefIdx--;
-            preferred.push(preferences[friend][prefIdx]);
-        };
-        
-        pairMap.set(friend, preferred);
-    };
     
     let unhappyCount = 0;
-    let unhappyFriends = [];
     
-    for (const [friend, prefs] of pairMap) {
+    for (let friend = 0; friend < n; friend++) {
+        let limit = preferences[friend].indexOf(pairMap.get(friend));
+        let prefs = preferences[friend].slice(0, limit);
+        
         for (let pref of prefs) {
-            if (pairMap.has(pref) && pairMap.get(pref).includes(friend)) {
-                if (!unhappyFriends.includes(friend)) {
-                    unhappyCount++;
-                    unhappyFriends.push(friend);
-                };
-                
-                if (!unhappyFriends.includes(pref)) {
-                    unhappyCount++;
-                    unhappyFriends.push(pref);
-                };
+            let prefLimit = preferences[pref].indexOf(pairMap.get(pref));
+            let prefPrefs = preferences[pref].slice(0, prefLimit);
+            
+            if (prefPrefs.includes(friend)) {
+                unhappyCount += 1;
+                break;
             }
-        }
+        };
     }
     
     return unhappyCount;
+        
+//     for (let friend = 0; friend < n; friend++) {
+//         let prefIdx = preferences[friend].indexOf(pairMap.get(friend));
+//         if (prefIdx === 0) {
+//             pairMap.delete(friend);
+//             continue;
+//         }; // friend got paired with first preference
+        
+//         let preferred = [];
+//         while (prefIdx > 0) {
+//             prefIdx--;
+//             preferred.push(preferences[friend][prefIdx]);
+//         };
+        
+//         pairMap.set(friend, preferred);
+//     };
+    
+//     let unhappyCount = 0;
+//     let unhappyFriends = [];
+    
+//     for (const [friend, prefs] of pairMap) {
+//         for (let pref of prefs) {
+//             if (pairMap.has(pref) && pairMap.get(pref).includes(friend)) {
+//                 if (!unhappyFriends.includes(friend)) {
+//                     unhappyCount++;
+//                     unhappyFriends.push(friend);
+//                 };
+                
+//                 if (!unhappyFriends.includes(pref)) {
+//                     unhappyCount++;
+//                     unhappyFriends.push(pref);
+//                 };
+//             }
+//         }
+//     }
+    
+//     return unhappyCount;
 };
