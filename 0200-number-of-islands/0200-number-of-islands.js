@@ -3,51 +3,44 @@
  * @return {number}
  */
 
-// 0 0 1
-// 0 1 1
-// 1 0 1
-// return => 2 islands
-// [["1","1","0","0","0"],
-// ["1","1","0","0","0"],
-// ["0","0","1","0","0"],
-// ["0","0","0","1","1"]]
-
-// breadth first search algorithm
-// iterate through my grid and 
-// keep track of:
-    // visited positions
-    // create out of bounds
-// recursively search until we can't find any other 0's or we're totally out of bounds
-
+// DFS on each pos(row, col)
+// mark visited
+// 
 
 var numIslands = function(grid) {
-    let numIslands = 0;
     const visited = new Set();
+    let count = 0;
     
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[0].length; col++) {
-            if (explore(grid, row, col, visited)) numIslands++;
-        };
+            count += explore(row, col, grid, visited) ? 1 : 0;
+        }
     };
     
-    return numIslands;
+    return count;
 };
 
-const explore = (grid, row, col, visited) => { // grid, 0, 0
-    // check bounds
+const explore = (row, col, grid, visited) => {
     const rowBounds = row >= 0 && row < grid.length;
     const colBounds = col >= 0 && col < grid[0].length;
-    if (!rowBounds || !colBounds) return false;
-    if (grid[row][col] === '0') return false;
+    if (!rowBounds || !colBounds) {
+        return false;
+    };
+    
+    if (grid[row][col] === '0') {
+        return false;
+    };
     
     const pos = row + "," + col;
-    if (visited.has(pos)) return false;
+    if (visited.has(pos)) {
+        return false;
+    };
     visited.add(pos);
-    
-    explore(grid, row + 1, col, visited);
-    explore(grid, row, col + 1, visited);
-    explore(grid, row - 1, col, visited);
-    explore(grid, row, col- 1, visited);
+        
+    explore(row + 1, col, grid, visited);
+    explore(row - 1, col, grid, visited);
+    explore(row, col + 1, grid, visited);
+    explore(row, col - 1, grid, visited);
     
     return true;
-};
+}
