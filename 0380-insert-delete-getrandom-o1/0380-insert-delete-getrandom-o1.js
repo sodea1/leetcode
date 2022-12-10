@@ -1,8 +1,8 @@
-// 
-
+// insert, remove, getRandom
+// array insert and getRandom O(1); remove O(1) with pop()
 var RandomizedSet = function() {
-    this.nums = [];
-    this.valMap = new Map();
+    this.randomSet = [];
+    this.indices = new Map();
 };
 
 /** 
@@ -10,9 +10,9 @@ var RandomizedSet = function() {
  * @return {boolean}
  */
 RandomizedSet.prototype.insert = function(val) {
-    if (this.valMap.has(val)) return false;
-    this.nums.push(val);
-    this.valMap.set(val, this.nums.length - 1);
+    if (this.indices.has(val)) return false;
+    this.randomSet.push(val);
+    this.indices.set(val, this.randomSet.length - 1);
     return true;
 };
 
@@ -20,22 +20,16 @@ RandomizedSet.prototype.insert = function(val) {
  * @param {number} val
  * @return {boolean}
  */
-// [0, 1]
-// pop 1
-// [0]
-// 
-RandomizedSet.prototype.remove = function(val) { 
-    if (!this.valMap.has(val)) return false;
-    const last = this.nums.pop(); // 1
-    const index = this.valMap.get(val); // 0
-    this.valMap.delete(val);
-    
-    if (this.nums.length === index) {
-        return true;
-    } else {
-        this.nums[index] = last;
-        this.valMap.set(last, index);
+RandomizedSet.prototype.remove = function(val) {
+    if (!this.indices.has(val)) return false
+    let lastVal = this.randomSet.pop();
+    if (lastVal !== val) {
+        const removalIdx = this.indices.get(val);
+        this.randomSet[removalIdx] = lastVal;
+        this.indices.set(lastVal, removalIdx);
     };
+    
+    this.indices.delete(val);    
     return true;
 };
 
@@ -43,7 +37,7 @@ RandomizedSet.prototype.remove = function(val) {
  * @return {number}
  */
 RandomizedSet.prototype.getRandom = function() {
-    return this.nums[Math.floor(Math.random() * this.nums.length)];
+    return this.randomSet[Math.floor(Math.random() * this.randomSet.length)];
 };
 
 /** 
