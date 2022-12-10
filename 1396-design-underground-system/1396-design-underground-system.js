@@ -1,15 +1,7 @@
-// checkIn:
-//     id, stationName, t
-// checkOut
-//     id, stationName, t
-// getAverageTime
-//     startStation
-//     endStation
-//.  
 
 var UndergroundSystem = function() {
-    this.checkIns = new Map();
-    this.tripInfo = new Map();
+    this.checkins = new Map(); // maintain check in info
+    this.tripInfo = new Map(); // maintains total time and total trips from key(start-end)
 };
 
 /** 
@@ -19,7 +11,7 @@ var UndergroundSystem = function() {
  * @return {void}
  */
 UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
-    this.checkIns.set(id, [stationName, t]);
+    this.checkins.set(id, [stationName, t]);
 };
 
 /** 
@@ -29,20 +21,18 @@ UndergroundSystem.prototype.checkIn = function(id, stationName, t) {
  * @return {void}
  */
 UndergroundSystem.prototype.checkOut = function(id, stationName, t) {
-    const [startStation, startTime] = this.checkIns.get(id);
-    this.checkIns.delete(id);
-    let key = `${startStation}-${stationName}`;
-    let totalTime = t - startTime;
+    const [startStation, startTime] = this.checkins.get(id);
+    this.checkins.delete(id);
+    const key = `${startStation}-${stationName}`;
+    
     
     if (this.tripInfo.has(key)) {
-        let prevTime = this.tripInfo.get(key)[0];
-        let prevTrips = this.tripInfo.get(key)[1];
-        prevTime += totalTime;
-        prevTrips++;
-        this.tripInfo.set(key, [prevTime, prevTrips]);
+        let [time, trips] = this.tripInfo.get(key);
+        let totalTime = t - startTime + time;
+        this.tripInfo.set(key, [totalTime, ++trips]);
     } else {
-        this.tripInfo.set(key, [totalTime, 1]);
-    }
+        this.tripInfo.set(key, [(t - startTime), 1]);
+    };
 };
 
 /** 
